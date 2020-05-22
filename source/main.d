@@ -59,6 +59,7 @@ int main(string[] args)
     auto context = new Context();
     context.display.title("#serpent Bricks Demo");
     context.display.size(1366, 768);
+    context.display.backgroundColor = 0x00a8ffff;
 
     if (vulkan)
     {

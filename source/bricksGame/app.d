@@ -47,7 +47,7 @@ public:
 
         brick = new Texture(buildPath("assets", "textures", "tileGrey_14.png"));
 
-        auto col1 = vec4f(0.3f, 0.6f, 1.0f, 1.0f);
+        auto col1 = vec4f(1.0f, 1.0f, 0.0f, 1.0f);
         auto col2 = vec4f(0.3f, 1.0f, 0.3f, 1.0f);
 
         foreach (y; 0 .. 3)
