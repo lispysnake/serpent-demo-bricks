@@ -135,9 +135,10 @@ public:
 
             auto phys = PhysicsComponent();
             phys.body = new DynamicBody();
-            phys.body.velocity = vec2f(-0.1f, -0.2f);
-            auto shape = new CircleShape(ball.width / 2.0f,
-                    vec2f(ball.width / 2.0f, ball.height / 2.0f));
+            phys.body.velocity = vec2f(-0.4f, -0.4f);
+            auto shape = new CircleShape((ball.width / 2.0f) * trans.scale.x,
+                    vec2f((ball.width / 2.0f) * trans.scale.x, (ball.height / 2.0f)) * trans
+                    .scale.y);
             shape.mass = 1.0f;
             shape.elasticity = 1.0f;
             shape.friction = 0.0f;
@@ -150,6 +151,56 @@ public:
 
         }
 
+        spawnWalls(view);
+
         return true;
+    }
+
+    final EntityID createBarrier(View!ReadWrite view, vec2f pointA, vec2f pointB)
+    {
+        auto entityID = view.createEntity();
+        auto trans = TransformComponent();
+        trans.position.x = pointA.x;
+        trans.position.y = pointA.y;
+
+        pointB.x -= pointA.x;
+        pointB.y -= pointA.y;
+        pointA.x = 0.0f;
+        pointA.y = 0.0f;
+
+        auto body = new StaticBody();
+        auto shape = new SegmentShape(pointA, pointB, 26.0f);
+        shape.elasticity = 1.0f;
+        shape.friction = 1.0f;
+        shape.mass = 300.0f;
+        body.add(shape);
+        auto phys = PhysicsComponent();
+        phys.body = body;
+
+        view.addComponent(entityID, phys);
+        view.addComponent(entityID, trans);
+
+        return entityID;
+    }
+
+    /**
+     * Spawn walls
+     */
+    final EntityID[] spawnWalls(View!ReadWrite view)
+    {
+        /* Ensure pixel perfect bounds with extremely thick (26px) segment barriers */
+        EntityID[] ret = [
+            createBarrier(view, vec2f(0.0f, 0.0f - 26.0f - 13.0f),
+                    vec2f(context.display.logicalWidth, 0.0f - 26.0f - 13.0f)), /* top */
+            createBarrier(view, vec2f(0.0f, context.display.logicalHeight + 13.0f),
+                    vec2f(context.display.logicalWidth, context.display.logicalHeight + 13.0f)), /* bottom */
+            createBarrier(view, vec2f(context.display.logicalWidth + 13.0f,
+                    0.0f), vec2f(context.display.logicalWidth + 13.0f,
+                    context.display.logicalHeight)), /* right */
+            createBarrier(view, vec2f(0.0f - 26.0f - 13.0f, 0.0f),
+                    vec2f(0.0f - 26.0f - 13.0f, context.display.logicalHeight)), /* left */
+        ];
+
+        return ret;
     }
 }
