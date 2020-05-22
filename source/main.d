@@ -111,5 +111,8 @@ int main(string[] args)
     auto proc = new PhysicsProcessor();
     context.systemGroup.add(proc);
 
-    return context.run(new BrickApp());
+    auto idle = new IdleProcessor();
+    context.systemGroup.add(idle);
+
+    return context.run(new BrickApp(idle));
 }

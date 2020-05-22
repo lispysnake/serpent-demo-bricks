@@ -23,3 +23,4 @@
 module bricksGame;
 
 public import bricksGame.app;
+public import bricksGame.idle;

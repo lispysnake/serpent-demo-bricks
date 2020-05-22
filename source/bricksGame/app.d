@@ -25,6 +25,7 @@ module bricksGame.app;
 import serpent;
 import serpent.physics2d;
 import std.path : buildPath;
+import bricksGame.idle;
 
 /**
  * Main game logic for the Bricks Demo
@@ -36,10 +37,20 @@ private:
 
     Scene s;
     Texture ball;
-    ;
     Texture brick;
+    IdleProcessor idleProc;
 
 public:
+
+    this(IdleProcessor proc)
+    {
+        this.idleProc = proc;
+    }
+
+    final void onHitted(Shape a, Shape b)
+    {
+        idleProc.schedule((view) { view.killEntity(a.chipBody.entity); });
+    }
 
     final override bool bootstrap(View!ReadWrite view)
     {
@@ -105,6 +116,8 @@ public:
                 shape.elasticity = 1.0f;
                 shape.friction = 0.0f;
                 phys.body.add(shape);
+
+                phys.body.collision.connect(&onHitted);
 
                 view.addComponent(ent, col);
                 view.addComponent(ent, spri);
