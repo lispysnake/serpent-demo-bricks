@@ -45,13 +45,19 @@ public:
         context.display.addScene(s);
         s.addCamera(new OrthographicCamera());
 
-        brick = new Texture(buildPath("assets", "textures", "tileGrey_14.png"));
+        brick = new Texture(buildPath("assets", "textures", "tileGrey_38.png"));
 
         auto col1 = vec4f(1.0f, 1.0f, 0.0f, 1.0f);
         auto col2 = vec4f(0.3f, 1.0f, 0.3f, 1.0f);
 
+        auto offset = 8.0f;
+
+        auto startX = 0.0f;
+        auto startY = 0.0f;
+
         foreach (y; 0 .. 3)
         {
+            startX = 0.0f;
             foreach (x; 0 .. 6)
             {
 
@@ -59,18 +65,34 @@ public:
                 auto ent = view.createEntity();
                 auto col = ColorComponent();
                 auto spri = SpriteComponent();
+                auto trans = TransformComponent();
+
                 spri.texture = brick;
                 if (y % 2 == 0)
                 {
                     col.rgba = col1;
+                    trans.position.z = 0.3f;
+
                 }
                 else
                 {
                     col.rgba = col2;
+                    trans.position.z = 0.2f;
                 }
-                auto trans = TransformComponent();
-                trans.position.x = x * brick.width;
-                trans.position.y = y * brick.height;
+                trans.position.x = startX;
+                trans.position.y = startY;
+
+                if (x > 0)
+                {
+                    trans.position.x -= offset;
+                }
+                if (y > 0)
+                {
+                    trans.position.y -= offset;
+                }
+
+                startX += brick.width;
+                startX -= offset;
 
                 trans.position.x *= 0.7f;
                 trans.position.y *= 0.7f;
@@ -81,6 +103,8 @@ public:
                 view.addComponent(ent, spri);
                 view.addComponent(ent, trans);
             }
+            startY += brick.height;
+            startY -= offset;
         }
 
         return true;
