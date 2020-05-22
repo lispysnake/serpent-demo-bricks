@@ -125,8 +125,13 @@ public:
 
             spri.texture = ball;
             trans.position.x = 700.0f;
-            trans.position.y = 1000.0f;
+            trans.position.y = 1200.0f;
             trans.position.z = 0.1f;
+
+            trans.scale.x = 0.5f;
+            trans.scale.y = 0.5f;
+            trans.position.x *= 0.5f;
+            trans.position.y *= 0.5f;
 
             auto phys = PhysicsComponent();
             phys.body = new DynamicBody();
