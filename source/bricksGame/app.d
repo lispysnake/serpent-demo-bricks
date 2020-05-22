@@ -27,6 +27,11 @@ import serpent.physics2d;
 import std.path : buildPath;
 import bricksGame.idle;
 
+final @serpentComponent struct BrickComponent
+{
+    int hp = 1;
+}
+
 /**
  * Main game logic for the Bricks Demo
  */
@@ -49,11 +54,20 @@ public:
 
     final void onHitted(Shape a, Shape b)
     {
-        idleProc.schedule((view) { view.killEntity(a.chipBody.entity); });
+        idleProc.schedule((view) {
+            auto bri = view.data!BrickComponent(a.chipBody.entity);
+            bri.hp--;
+            if (bri.hp == 0)
+            {
+                view.killEntity(a.chipBody.entity);
+            }
+        });
     }
 
     final override bool bootstrap(View!ReadWrite view)
     {
+        context.entity.registerComponent!BrickComponent;
+
         /* REMOVE SCENE CRUFT FROM SERPENT CORE */
         s = new Scene("main");
         context.display.addScene(s);
@@ -82,12 +96,15 @@ public:
                 auto col = ColorComponent();
                 auto spri = SpriteComponent();
                 auto trans = TransformComponent();
+                auto bri = BrickComponent();
+                bri.hp = 2;
 
                 spri.texture = brick;
                 if (y % 2 == 0)
                 {
                     col.rgba = col1;
                     trans.position.z = 0.3f;
+                    bri.hp = 1;
 
                 }
                 else
@@ -123,6 +140,7 @@ public:
                 view.addComponent(ent, spri);
                 view.addComponent(ent, trans);
                 view.addComponent(ent, phys);
+                view.addComponent(ent, bri);
             }
             startY += brick.height;
             startY -= offset;
@@ -148,7 +166,7 @@ public:
 
             auto phys = PhysicsComponent();
             phys.body = new DynamicBody();
-            phys.body.velocity = vec2f(-0.4f, -0.4f);
+            phys.body.velocity = vec2f(-0.8f, -0.8f);
             auto shape = new CircleShape((ball.width / 2.0f) * trans.scale.x,
                     vec2f((ball.width / 2.0f) * trans.scale.x, (ball.height / 2.0f)) * trans
                     .scale.y);
