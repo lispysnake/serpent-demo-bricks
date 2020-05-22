@@ -99,15 +99,9 @@ public:
                 startX += brick.width;
                 startX -= offset;
 
-                trans.position.x *= 0.7f;
-                trans.position.y *= 0.7f;
-                trans.scale.x = 0.7f;
-                trans.scale.y = 0.7f;
-
                 auto phys = PhysicsComponent();
                 phys.body = new StaticBody();
-                auto shape = new BoxShape((brick.width * trans.scale.x),
-                        (brick.height * trans.scale.y));
+                auto shape = new BoxShape(brick.width, brick.height, 0.0f);
                 shape.elasticity = 1.0f;
                 shape.friction = 0.0f;
                 phys.body.add(shape);
@@ -134,16 +128,11 @@ public:
             trans.position.y = 1000.0f;
             trans.position.z = 0.5f;
 
-            trans.position.x *= 0.5f;
-            trans.position.y *= 0.5f;
-            trans.scale.x = 0.5f;
-            trans.scale.y = 0.5f;
-
             auto phys = PhysicsComponent();
             phys.body = new DynamicBody();
-            phys.body.velocity = vec2f(0.0f, -0.1f);
-            auto shape = new CircleShape((ball.width * trans.scale.x / 2.0f),
-                    vec2f((ball.width * trans.scale.x) / 2.0f, (ball.height * trans.scale.y) / 2.0f));
+            phys.body.velocity = vec2f(-0.1f, -0.2f);
+            auto shape = new CircleShape(ball.width / 2.0f,
+                    vec2f(ball.width / 2.0f, ball.height / 2.0f));
             shape.mass = 1.0f;
             shape.elasticity = 1.0f;
             shape.friction = 0.0f;
