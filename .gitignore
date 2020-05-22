@@ -1,0 +1,21 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/serpent-demo-bricks
+serpent-demo-bricks.so
+serpent-demo-bricks.dylib
+serpent-demo-bricks.dll
+serpent-demo-bricks.a
+serpent-demo-bricks.lib
+serpent-demo-bricks-test-*
+*.exe
+*.o
+*.obj
+*.lst
+dub.selections.json
+
+# Caused by autoformat
+*.d.orig
+
+/bin/
