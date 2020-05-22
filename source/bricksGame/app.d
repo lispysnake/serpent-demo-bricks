@@ -23,6 +23,7 @@
 module bricksGame.app;
 
 import serpent;
+import std.path : buildPath;
 
 /**
  * Main game logic for the Bricks Demo
@@ -33,6 +34,7 @@ final class BrickApp : serpent.App
 private:
 
     Scene s;
+    Texture brick;
 
 public:
 
@@ -42,6 +44,44 @@ public:
         s = new Scene("main");
         context.display.addScene(s);
         s.addCamera(new OrthographicCamera());
+
+        brick = new Texture(buildPath("assets", "textures", "tileGrey_14.png"));
+
+        auto col1 = vec4f(0.3f, 0.6f, 1.0f, 1.0f);
+        auto col2 = vec4f(0.3f, 1.0f, 0.3f, 1.0f);
+
+        foreach (y; 0 .. 3)
+        {
+            foreach (x; 0 .. 6)
+            {
+
+                /* Create sample brick.. */
+                auto ent = view.createEntity();
+                auto col = ColorComponent();
+                auto spri = SpriteComponent();
+                spri.texture = brick;
+                if (y % 2 == 0)
+                {
+                    col.rgba = col1;
+                }
+                else
+                {
+                    col.rgba = col2;
+                }
+                auto trans = TransformComponent();
+                trans.position.x = x * brick.width;
+                trans.position.y = y * brick.height;
+
+                trans.position.x *= 0.7f;
+                trans.position.y *= 0.7f;
+                trans.scale.x = 0.7f;
+                trans.scale.y = 0.7f;
+
+                view.addComponent(ent, col);
+                view.addComponent(ent, spri);
+                view.addComponent(ent, trans);
+            }
+        }
 
         return true;
     }

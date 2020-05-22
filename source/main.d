@@ -58,6 +58,7 @@ int main(string[] args)
     /* Context is essential to *all* Serpent usage. */
     auto context = new Context();
     context.display.title("#serpent Bricks Demo");
+    context.display.size(1366, 768);
 
     if (vulkan)
     {
