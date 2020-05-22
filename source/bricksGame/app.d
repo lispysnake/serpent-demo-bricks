@@ -34,6 +34,8 @@ final class BrickApp : serpent.App
 private:
 
     Scene s;
+    Texture ball;
+    ;
     Texture brick;
 
 public:
@@ -45,7 +47,9 @@ public:
         context.display.addScene(s);
         s.addCamera(new OrthographicCamera());
 
-        brick = new Texture(buildPath("assets", "textures", "tileGrey_38.png"));
+        brick = new Texture(buildPath("assets", "textures", "tileGrey_38.png"),
+                TextureFilter.Linear);
+        ball = new Texture(buildPath("assets", "textures", "ballGrey_05.png"), TextureFilter.Linear);
 
         auto col1 = vec4f(1.0f, 1.0f, 0.0f, 1.0f);
         auto col2 = vec4f(0.3f, 1.0f, 0.3f, 1.0f);
@@ -105,6 +109,30 @@ public:
             }
             startY += brick.height;
             startY -= offset;
+        }
+
+        /* Spawn a ball */
+        {
+            auto ent = view.createEntity();
+            auto col = ColorComponent();
+            col.rgba = vec4f(1.0f, 1.0f, 1.0f, 1.0f);
+            auto spri = SpriteComponent();
+            auto trans = TransformComponent();
+
+            spri.texture = ball;
+            trans.position.x = 500.0f;
+            trans.position.y = 500.0f;
+            trans.position.z = 0.5f;
+
+            trans.position.x *= 0.5f;
+            trans.position.y *= 0.5f;
+            trans.scale.x *= 0.5f;
+            trans.scale.y *= 0.5f;
+
+            view.addComponent(ent, col);
+            view.addComponent(ent, spri);
+            view.addComponent(ent, trans);
+
         }
 
         return true;
