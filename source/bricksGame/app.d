@@ -104,9 +104,18 @@ public:
                 trans.scale.x = 0.7f;
                 trans.scale.y = 0.7f;
 
+                auto phys = PhysicsComponent();
+                phys.body = new StaticBody();
+                auto shape = new BoxShape((brick.width * trans.scale.x),
+                        (brick.height * trans.scale.y));
+                shape.elasticity = 1.0f;
+                shape.friction = 0.0f;
+                phys.body.add(shape);
+
                 view.addComponent(ent, col);
                 view.addComponent(ent, spri);
                 view.addComponent(ent, trans);
+                view.addComponent(ent, phys);
             }
             startY += brick.height;
             startY -= offset;
@@ -133,9 +142,11 @@ public:
             auto phys = PhysicsComponent();
             phys.body = new DynamicBody();
             phys.body.velocity = vec2f(0.0f, -0.1f);
-            auto shape = new CircleShape(ball.width * trans.scale.x,
+            auto shape = new CircleShape((ball.width * trans.scale.x / 2.0f),
                     vec2f((ball.width * trans.scale.x) / 2.0f, (ball.height * trans.scale.y) / 2.0f));
             shape.mass = 1.0f;
+            shape.elasticity = 1.0f;
+            shape.friction = 0.0f;
             phys.body.add(shape);
 
             view.addComponent(ent, col);
