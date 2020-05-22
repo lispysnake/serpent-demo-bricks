@@ -1,4 +1,4 @@
-# Basic Bricks Demo
+### Serpent Bricks Demo
 
 [![License](https://img.shields.io/badge/License-ZLib-blue.svg)](https://opensource.org/licenses/ZLib)
 
