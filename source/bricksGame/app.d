@@ -133,7 +133,8 @@ public:
             auto phys = PhysicsComponent();
             phys.body = new DynamicBody();
             phys.body.velocity = vec2f(0.0f, -0.1f);
-            auto shape = new CircleShape(ball.width * trans.scale.x, vec2f(0.0f, 0.0f));
+            auto shape = new CircleShape(ball.width * trans.scale.x,
+                    vec2f((ball.width * trans.scale.x) / 2.0f, (ball.height * trans.scale.y) / 2.0f));
             shape.mass = 1.0f;
             phys.body.add(shape);
 
