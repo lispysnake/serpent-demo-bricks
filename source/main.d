@@ -26,6 +26,7 @@ import serpent;
 import std.getopt;
 import std.stdio;
 
+import serpent.physics2d;
 import bricksGame;
 
 /* Main entry */
@@ -105,6 +106,9 @@ int main(string[] args)
 
     auto pipe = cast(BgfxPipeline) context.display.pipeline;
     pipe.addRenderer(new SpriteRenderer());
+
+    auto proc = new PhysicsProcessor();
+    context.systemGroup.add(proc);
 
     return context.run(new BrickApp());
 }
