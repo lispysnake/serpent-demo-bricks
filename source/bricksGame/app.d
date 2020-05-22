@@ -23,6 +23,7 @@
 module bricksGame.app;
 
 import serpent;
+import serpent.physics2d;
 import std.path : buildPath;
 
 /**
@@ -121,17 +122,25 @@ public:
 
             spri.texture = ball;
             trans.position.x = 700.0f;
-            trans.position.y = 700.0f;
+            trans.position.y = 1000.0f;
             trans.position.z = 0.5f;
 
             trans.position.x *= 0.5f;
             trans.position.y *= 0.5f;
-            trans.scale.x *= 0.5f;
-            trans.scale.y *= 0.5f;
+            trans.scale.x = 0.5f;
+            trans.scale.y = 0.5f;
+
+            auto phys = PhysicsComponent();
+            phys.body = new DynamicBody();
+            phys.body.velocity = vec2f(0.0f, -0.1f);
+            auto shape = new CircleShape(ball.width * trans.scale.x, vec2f(0.0f, 0.0f));
+            shape.mass = 1.0f;
+            phys.body.add(shape);
 
             view.addComponent(ent, col);
             view.addComponent(ent, spri);
             view.addComponent(ent, trans);
+            view.addComponent(ent, phys);
 
         }
 
