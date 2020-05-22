@@ -57,11 +57,11 @@ public:
         auto offset = 8.0f;
 
         auto startX = 0.0f;
-        auto startY = 0.0f;
+        auto startY = 100.0f;
 
         foreach (y; 0 .. 3)
         {
-            startX = 0.0f;
+            startX = 150.0f;
             foreach (x; 0 .. 6)
             {
 
@@ -120,8 +120,8 @@ public:
             auto trans = TransformComponent();
 
             spri.texture = ball;
-            trans.position.x = 500.0f;
-            trans.position.y = 500.0f;
+            trans.position.x = 700.0f;
+            trans.position.y = 700.0f;
             trans.position.z = 0.5f;
 
             trans.position.x *= 0.5f;
