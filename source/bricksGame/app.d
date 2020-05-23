@@ -43,6 +43,7 @@ private:
     Scene s;
     Texture ball;
     Texture brick;
+    Texture paddle;
     IdleProcessor idleProc;
 
 public:
@@ -76,6 +77,8 @@ public:
         brick = new Texture(buildPath("assets", "textures",
                 "element_grey_rectangle_glossy.png"), TextureFilter.Linear);
         ball = new Texture(buildPath("assets", "textures", "ballGrey.png"), TextureFilter.Linear);
+
+        paddle = new Texture(buildPath("assets", "textures", "paddleBlu.png"), TextureFilter.Linear);
 
         auto col1 = vec4f(1.0f, 1.0f, 0.0f, 1.0f);
         auto col2 = vec4f(0.3f, 1.0f, 0.3f, 1.0f);
@@ -175,6 +178,29 @@ public:
             view.addComponent(ent, trans);
             view.addComponent(ent, phys);
 
+        }
+
+        /* spawn a paddle */
+        {
+            auto ent = view.createEntity();
+            auto spri = SpriteComponent();
+            auto trans = TransformComponent();
+            spri.texture = paddle;
+
+            trans.position.y = context.display.logicalHeight - spri.texture.height - 30.0f;
+            trans.position.x = (context.display.logicalWidth / 2.0f) - (spri.texture.width / 2.0f);
+
+            auto phys = PhysicsComponent();
+            phys.body = new KinematicBody();
+            auto shape = new BoxShape(spri.texture.width, spri.texture.height);
+            shape.mass = 1.0f;
+            shape.elasticity = 1.0f;
+            shape.friction = 0.0f;
+            phys.body.add(shape);
+
+            view.addComponent(ent, spri);
+            view.addComponent(ent, trans);
+            view.addComponent(ent, phys);
         }
 
         spawnWalls(view);
