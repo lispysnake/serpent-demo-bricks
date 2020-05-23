@@ -73,22 +73,22 @@ public:
         context.display.addScene(s);
         s.addCamera(new OrthographicCamera());
 
-        brick = new Texture(buildPath("assets", "textures", "tileGrey_38.png"),
-                TextureFilter.Linear);
-        ball = new Texture(buildPath("assets", "textures", "ballGrey_05.png"), TextureFilter.Linear);
+        brick = new Texture(buildPath("assets", "textures",
+                "element_grey_rectangle_glossy.png"), TextureFilter.Linear);
+        ball = new Texture(buildPath("assets", "textures", "ballGrey.png"), TextureFilter.Linear);
 
         auto col1 = vec4f(1.0f, 1.0f, 0.0f, 1.0f);
         auto col2 = vec4f(0.3f, 1.0f, 0.3f, 1.0f);
 
-        auto offset = 8.0f;
+        auto offset = 0.0f;
 
         auto startX = 0.0f;
         auto startY = 100.0f;
 
-        foreach (y; 0 .. 3)
+        foreach (y; 0 .. 6)
         {
             startX = 150.0f;
-            foreach (x; 0 .. 6)
+            foreach (x; 0 .. 16)
             {
 
                 /* Create sample brick.. */
@@ -155,21 +155,16 @@ public:
             auto trans = TransformComponent();
 
             spri.texture = ball;
-            trans.position.x = 700.0f;
-            trans.position.y = 1200.0f;
+            trans.position.x = 600.0f;
+            trans.position.y = 600.0f;
             trans.position.z = 0.1f;
-
-            trans.scale.x = 0.5f;
-            trans.scale.y = 0.5f;
-            trans.position.x *= 0.5f;
-            trans.position.y *= 0.5f;
 
             auto phys = PhysicsComponent();
             phys.body = new DynamicBody();
-            phys.body.velocity = vec2f(-0.8f, -0.8f);
-            auto shape = new CircleShape((ball.width / 2.0f) * trans.scale.x,
-                    vec2f((ball.width / 2.0f) * trans.scale.x, (ball.height / 2.0f)) * trans
-                    .scale.y);
+            phys.body.velocity = vec2f(-0.6f, -0.6f);
+            phys.body.maxVelocity = vec2f(0.6f, 0.6f);
+            auto shape = new CircleShape((ball.width / 2.0f),
+                    vec2f((ball.width / 2.0f), (ball.height / 2.0f)));
             shape.mass = 1.0f;
             shape.elasticity = 1.0f;
             shape.friction = 0.0f;
